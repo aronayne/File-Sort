@@ -2,8 +2,13 @@
 require 'find'
 require 'fileutils'
 
+=begin
+Class which sorts files of any type alphabetically into various folders.
+=end
+
 class Sort
   
+
   def initialize
      @fileArray = Array.new()
      @workingDir = "c:\\test"
