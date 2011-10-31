@@ -9,10 +9,11 @@ Class which sorts files of any type alphabetically into various folders.
 class Sort
   
 
-  def initialize
+  def initialize(workingDir, sortedFilesDir, totalNumberFiles)
      @fileArray = Array.new()
-     @workingDir = "c:\\test"
-     @sortedFilesDir = "c:\\test\\files"
+     @workingDir = workingDir
+     @sortedFilesDir = sortedFilesDir
+     @totalNumberFiles = totalNumberFiles
    end
 
   def createFolders()
@@ -55,6 +56,7 @@ end
 
 def sortFiles()
   
+  @fileNumber = 0;
   directory_names = Dir.foreach(@sortedFilesDir)
   matching_directory_names = @fileArray.map do |filename|
     directory_names.find do |directory_name|
@@ -64,8 +66,10 @@ def sortFiles()
         
         begin
           
+          @fileNumber = @fileNumber + 1
           dirToCopyInto = @sortedFilesDir+"\\"+filename[/\/(.)(?!.*\/)/][1,1].upcase()
-          puts "Copying file "+filename+" To "+dirToCopyInto
+          puts "Copying file ("+@fileNumber.to_s+" of "+
+          @totalNumberFiles.to_s+ ")" +filename+" To "+dirToCopyInto
           FileUtils.cp filename, dirToCopyInto
 
           rescue Exception=>e
@@ -81,8 +85,4 @@ end
 end
 
 
-s = Sort.new()
 
-s.populateFilenames()
-s.createFolders()
-s.sortFiles()
